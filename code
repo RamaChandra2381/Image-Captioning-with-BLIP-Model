@@ -1,0 +1,32 @@
+!pip install transformers
+from transformers import pipeline
+from PIL import Image
+import requests
+from io import BytesIO
+from IPython.display import display
+
+# Initialize the image captioning pipeline
+image_captioning = pipeline("image-to-text", model="Salesforce/blip-image-captioning-base")
+
+
+
+# Assuming 'my_image.jpg' is uploaded in Colab files section
+image_path = "/content/Snapshot.png"
+
+# Read the image data into memory using PIL
+try:
+  image = Image.open(image_path) 
+  
+  # Display the image
+  display(image)  
+  
+  # Generate the caption using the image data
+  caption = image_captioning(image) 
+  
+  # Print the caption below the image
+  print(caption[0]['generated_text']) 
+
+except FileNotFoundError:
+    print(f"Error: Image file not found at {image_path}")
+except Exception as e:
+    print(f"An error occurred: {e}")
